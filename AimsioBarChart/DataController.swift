@@ -14,6 +14,8 @@ class DataController {
 
   let dateFormatter: NSDateFormatter!
   
+  var assets = [Asset]()
+  
   enum DataIndex:Int {
     case unitNumber = 0
     case status = 1
@@ -22,18 +24,15 @@ class DataController {
   
   init() {
     dateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter.dateFormat = "\"yyyy-MM-dd HH:mm:ss\""
   }
   
-  // MARK: - Data seeding
+  // MARK: - Data methods
   
   
   func importFromCsv(sourceFile:String, completion: ((importedData:[Asset]) -> Void)? ) {
     
-    let localDateFormatter = dateFormatter
-    let context = managedObjectContext
-    
-    NSURLSession.downloadFromAddress(sourceFile) { (resultFileUrl, response, error) in
+    NSURLSession.downloadFromAddress(sourceFile) { [unowned self] (resultFileUrl, response, error) in
       let newline = "\n"
       guard let raw = try? String(contentsOfURL: resultFileUrl!) else { return }
       
@@ -45,21 +44,44 @@ class DataController {
         
         let fields = line.splitBy(",")
         
-        guard let asset = NSEntityDescription.insertNewObjectForEntityForName(Asset.ENTITY_NAME, inManagedObjectContext: context) as? Asset else { continue }
+        guard let asset = NSEntityDescription.insertNewObjectForEntityForName(Asset.ENTITY_NAME, inManagedObjectContext: self.managedObjectContext) as? Asset else { continue }
         
         asset.unitNumber = fields[ DataIndex.unitNumber.rawValue ]
         asset.status = fields[ DataIndex.status.rawValue ]
-        asset.entryDate = localDateFormatter.dateFromString( fields[ DataIndex.entryDate.rawValue ] )
-
+        asset.entryDate = self.dateFormatter.dateFromString( fields[ DataIndex.entryDate.rawValue ] )
         
-        print ("\(asset.unitNumber), \(asset.status), \(asset.entryDate)")
+        //print ("\(asset.unitNumber), \(asset.status), \(asset.entryDate)")
+        
+        self.assets.append(asset)
         
       }
       
+      print ("Saving Context")
+      
+      self.saveContext()
+      
+      completion?(importedData: self.assets)
       
     }
     
   }
+  
+  
+  func deleteAllAssets(completion: (() -> Void)?){
+    let fetchRequest = NSFetchRequest(entityName: Asset.ENTITY_NAME)
+    let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+    
+    do {
+      try persistentStoreCoordinator.executeRequest(deleteRequest, withContext: managedObjectContext)
+    } catch let error as NSError {
+      print ("Error in deleteAllAssets: \(error.userInfo)")
+    }
+    
+    saveContext()
+    
+    completion?()
+  }
+  
   
   // MARK: - Core Data stack
   
@@ -115,11 +137,7 @@ class DataController {
       do {
         try managedObjectContext.save()
       } catch {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        let nserror = error as NSError
-        NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
-        abort()
+        print ("Failed to save")
       }
     }
   }

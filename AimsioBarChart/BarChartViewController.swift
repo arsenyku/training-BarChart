@@ -21,24 +21,30 @@ class BarChartViewController: UIViewController {
   @IBOutlet weak var timeSegment: UISegmentedControl!
   @IBOutlet weak var chartView: UIView!
   
-  var context: NSManagedObjectContext {
-    get {
-      return dataController.managedObjectContext
-    }
-  }
+  // MARK: lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
 
     signalLabel.rotate(by: -π/2)
     
-    dataController.importFromCsv(sourceFileLocation, completion: nil)
+    dataController.deleteAllAssets { [unowned self] in
+      self.dataController.importFromCsv(self.sourceFileLocation, completion: self.dataReady)
+    }
+    
     
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  
+  // MARK: Bar Chart
+  
+  func dataReady(importedData:[Asset]) -> Void {
+    print ("Imported \(importedData.count) assets")
   }
 
 
