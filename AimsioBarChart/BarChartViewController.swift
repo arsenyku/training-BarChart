@@ -7,20 +7,32 @@
 //
 
 import UIKit
+import CoreData
 
 class BarChartViewController: UIViewController {
 
   let π = CGFloat(M_PI)
+  let sourceFileLocation = "https://raw.githubusercontent.com/arsenyku/training-BarChart/master/AimsioBarChart/query_result-iOS.csv"
+  
+  let dataController = DataController()
   
   @IBOutlet weak var assetPicker: UIPickerView!
   @IBOutlet weak var signalLabel: UILabel!
   @IBOutlet weak var timeSegment: UISegmentedControl!
   @IBOutlet weak var chartView: UIView!
   
+  var context: NSManagedObjectContext {
+    get {
+      return dataController.managedObjectContext
+    }
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
     signalLabel.rotate(by: -π/2)
+    
+    dataController.importFromCsv(sourceFileLocation, completion: nil)
     
   }
 
