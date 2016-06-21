@@ -16,6 +16,6 @@ extension Asset {
 
     @NSManaged var entryDate: NSDate?
     @NSManaged var status: String?
-    @NSManaged var unitNumber: NSNumber?
+    @NSManaged var unitNumber: String?
 
 }

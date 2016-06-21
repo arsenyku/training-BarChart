@@ -41,17 +41,13 @@ class DataController {
       
       for line in lines {
         
-        if (line.hasPrefix("\"AssetUN\"")) { continue }
+        if (line.hasPrefix("\"AssetUN\"") || line == "") { continue }
         
         let fields = line.splitBy(",")
         
         guard let asset = NSEntityDescription.insertNewObjectForEntityForName(Asset.ENTITY_NAME, inManagedObjectContext: context) as? Asset else { continue }
         
-//        asset.unitNumber = NSNumber(int: Int32(fields[ DataIndex.unitNumber.rawValue ])!)
-//        asset.status = fields[ DataIndex.status.rawValue ]
-//        asset.entryDate = localDateFormatter.dateFromString( fields[ DataIndex.entryDate.rawValue ] )
-
-        asset.unitNumber = NSNumber(int: Int32(fields[ DataIndex.unitNumber.rawValue ])!)
+        asset.unitNumber = fields[ DataIndex.unitNumber.rawValue ]
         asset.status = fields[ DataIndex.status.rawValue ]
         asset.entryDate = localDateFormatter.dateFromString( fields[ DataIndex.entryDate.rawValue ] )
 
@@ -130,52 +126,4 @@ class DataController {
  
   
 }
-
-//- (instancetype)init
-//{
-//  self = [super init];
-//  if (self) {
-//    
-//    // get momd url
-//    
-//    NSURL *momdURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
-//    
-//    
-//    // init MOM
-//    self.mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:momdURL];
-//    
-//    
-//    // init PSC
-//    self.psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.mom];
-//    
-//    
-//    // get data store url
-//    
-//    NSString *storePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"datastore.sqlite"];
-//    
-//    NSLog(@"StorePath: %@", storePath);
-//    
-//    NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
-//    
-//    // add a NSSQLiteStoreType PS to the PSC
-//    
-//    NSError *storeError = nil;
-//    
-//    if (![self.psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&storeError]) {
-//      
-//      NSLog(@"Couldn't create persistant store %@", storeError);
-//    }
-//    
-//    // make a MOC
-//    
-//    self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-//    
-//    
-//    // set the MOCs PSC
-//    
-//    self.context.persistentStoreCoordinator = self.psc;
-//    
-//  }
-//  return self;
-//}
 

@@ -19,7 +19,7 @@
 		12DAAFFB1D192EC500D729A9 /* NSURLSession+DownloadFromAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DAAFFA1D192EC500D729A9 /* NSURLSession+DownloadFromAddress.swift */; };
 		12DAB0001D1936DA00D729A9 /* String+splitBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DAAFFF1D1936DA00D729A9 /* String+splitBy.swift */; };
 		12DAB0021D19CBFF00D729A9 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DAB0011D19CBFF00D729A9 /* DataController.swift */; };
-		12DAB00C1D19D52700D729A9 /* Asset+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DAB00B1D19D52700D729A9 /* Asset+CoreDataProperties.swift */; };
+		12DAB00E1D19DD8500D729A9 /* Asset+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DAB00D1D19DD8500D729A9 /* Asset+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +49,7 @@
 		12DAAFFA1D192EC500D729A9 /* NSURLSession+DownloadFromAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+DownloadFromAddress.swift"; sourceTree = "<group>"; };
 		12DAAFFF1D1936DA00D729A9 /* String+splitBy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+splitBy.swift"; sourceTree = "<group>"; };
 		12DAB0011D19CBFF00D729A9 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		12DAB00B1D19D52700D729A9 /* Asset+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Asset+CoreDataProperties.swift"; path = "DataModel/Asset+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		12DAB00D1D19DD8500D729A9 /* Asset+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Asset+CoreDataProperties.swift"; path = "DataModel/Asset+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				12DAAFD71D18B48900D729A9 /* AimsioBarChart.xcdatamodeld */,
-				12DAB00B1D19D52700D729A9 /* Asset+CoreDataProperties.swift */,
+				12DAB00D1D19DD8500D729A9 /* Asset+CoreDataProperties.swift */,
 				12DAAFF61D192AAD00D729A9 /* Asset.swift */,
 			);
 			name = DataModel;
@@ -234,9 +234,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12DAB00E1D19DD8500D729A9 /* Asset+CoreDataProperties.swift in Sources */,
 				12DAAFF81D192AAD00D729A9 /* Asset.swift in Sources */,
 				12DAAFF41D18C21C00D729A9 /* UIView+Rotation.swift in Sources */,
-				12DAB00C1D19D52700D729A9 /* Asset+CoreDataProperties.swift in Sources */,
 				12DAAFD31D18B48900D729A9 /* BarChartViewController.swift in Sources */,
 				12DAB0001D1936DA00D729A9 /* String+splitBy.swift in Sources */,
 				12DAAFFB1D192EC500D729A9 /* NSURLSession+DownloadFromAddress.swift in Sources */,
