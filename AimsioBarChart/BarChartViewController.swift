@@ -8,11 +8,20 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class BarChartViewController: UIViewController {
 
+  let π = CGFloat(M_PI)
+  
+  @IBOutlet weak var assetPicker: UIPickerView!
+  @IBOutlet weak var signalLabel: UILabel!
+  @IBOutlet weak var timeSegment: UISegmentedControl!
+  @IBOutlet weak var chartView: UIView!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+
+    signalLabel.rotate(by: -π/2)
+    
   }
 
   override func didReceiveMemoryWarning() {

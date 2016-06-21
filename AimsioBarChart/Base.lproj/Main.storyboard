@@ -3,12 +3,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Bar Chart View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AimsioBarChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="BarChartViewController" customModule="AimsioBarChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -33,14 +34,8 @@
                                     <segment title="Yearly"/>
                                 </segments>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Signal Count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-hq-73H">
-                                <rect key="frame" x="44" y="489" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OEW-Dk-oRt">
-                                <rect key="frame" x="114" y="528" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OEW-Dk-oRt">
+                                <rect key="frame" x="100" y="528" width="38" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -51,8 +46,14 @@
                                     <constraint firstAttribute="height" constant="216" id="l95-aj-Lad"/>
                                 </constraints>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cev-uP-uAz" userLabel="assetTitle">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assets" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cev-uP-uAz" userLabel="assetTitle">
                                 <rect key="frame" x="0.0" y="40" width="100" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Signal Count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-hq-73H">
+                                <rect key="frame" x="36" y="460" width="98" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -64,6 +65,7 @@
                             <constraint firstAttribute="trailing" secondItem="Y3L-Qr-xJR" secondAttribute="trailing" id="6oK-pE-Z7b"/>
                             <constraint firstItem="Cev-uP-uAz" firstAttribute="width" secondItem="XhI-Ah-lQJ" secondAttribute="width" id="AiK-Qb-gBD"/>
                             <constraint firstItem="Y3L-Qr-xJR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Fau-hH-eLI"/>
+                            <constraint firstItem="OEW-Dk-oRt" firstAttribute="top" secondItem="Y3L-Qr-xJR" secondAttribute="bottom" constant="8" id="Hk0-nq-Pld"/>
                             <constraint firstItem="Cev-uP-uAz" firstAttribute="centerX" secondItem="XhI-Ah-lQJ" secondAttribute="centerX" id="L2n-eG-I0q"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ghe-T7-vXe" secondAttribute="bottom" constant="20" id="M1o-3c-p9V"/>
                             <constraint firstItem="XhI-Ah-lQJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="MpA-Rk-jGc"/>
@@ -71,9 +73,18 @@
                             <constraint firstItem="XhI-Ah-lQJ" firstAttribute="top" secondItem="Cev-uP-uAz" secondAttribute="bottom" constant="5" id="VPU-As-1Fe"/>
                             <constraint firstItem="Y3L-Qr-xJR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="100" id="XaJ-aw-cup"/>
                             <constraint firstItem="Y3L-Qr-xJR" firstAttribute="leading" secondItem="XhI-Ah-lQJ" secondAttribute="trailing" id="df9-6M-jB3"/>
+                            <constraint firstItem="j1X-hq-73H" firstAttribute="centerX" secondItem="Y3L-Qr-xJR" secondAttribute="leading" constant="-15" id="eAV-s6-z3a"/>
+                            <constraint firstItem="OEW-Dk-oRt" firstAttribute="leading" secondItem="Y3L-Qr-xJR" secondAttribute="leading" id="kia-7x-ONd"/>
                             <constraint firstItem="Cev-uP-uAz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="l15-j6-BcP"/>
+                            <constraint firstItem="j1X-hq-73H" firstAttribute="centerY" secondItem="Y3L-Qr-xJR" secondAttribute="bottom" constant="-50" id="tv7-lL-kpE"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="assetPicker" destination="XhI-Ah-lQJ" id="6bs-QA-WQr"/>
+                        <outlet property="chartView" destination="Y3L-Qr-xJR" id="EDj-n8-cZn"/>
+                        <outlet property="signalLabel" destination="j1X-hq-73H" id="kWs-IN-81l"/>
+                        <outlet property="timeSegment" destination="ghe-T7-vXe" id="h1d-Kh-Rg8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
