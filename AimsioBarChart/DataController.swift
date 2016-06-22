@@ -12,6 +12,8 @@ import CoreData
 
 class DataController {
 
+  let sourceFileLocation = "https://raw.githubusercontent.com/arsenyku/training-BarChart/master/AimsioBarChart/query_result-iOS.csv"
+
   let dateFormatter: NSDateFormatter!
   
   var signals = [Signal]()
@@ -34,7 +36,7 @@ class DataController {
   }
   
   // MARK: - Data methods
-  
+
   
   func importFromCsv(sourceFile:String, completion: ((importedData:[Signal]) -> Void)? ) {
     
@@ -69,7 +71,7 @@ class DataController {
       
       self.signals = tempSignals as AnyObject as! [Signal]
       
-      print ("Saving Context")
+      print ("Saving downloaded signals")
       
       self.saveContext()
       
@@ -93,6 +95,22 @@ class DataController {
     saveContext()
     
     completion?()
+  }
+  
+  
+  func fetchSignals(completion:(()->Void)?){
+    let fetchRequest = NSFetchRequest(entityName: Signal.ENTITY_NAME)
+    
+    let fetched = try? managedObjectContext.executeFetchRequest(fetchRequest) as! [Signal]
+    
+    if let fetched = fetched where fetched.count > 0 {
+      signals = fetched
+      completion?()
+    } else {
+      importFromCsv(sourceFileLocation, completion: { (importedData) in
+        completion?()
+      })
+    }
   }
   
   

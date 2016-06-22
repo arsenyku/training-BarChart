@@ -11,7 +11,6 @@ import UIKit
 class BarChartViewController: UIViewController {
 
   let π = CGFloat(M_PI)
-  let sourceFileLocation = "https://raw.githubusercontent.com/arsenyku/training-BarChart/master/AimsioBarChart/query_result-iOS.csv"
   
   let dataController = DataController()
   
@@ -27,9 +26,7 @@ class BarChartViewController: UIViewController {
 
     signalLabel.rotate(by: -π/2)
     
-    dataController.deleteAllAssets { [unowned self] in
-      self.dataController.importFromCsv(self.sourceFileLocation, completion: self.dataReady)
-    }
+    dataController.fetchSignals(dataReady)
     
     
   }
@@ -42,36 +39,10 @@ class BarChartViewController: UIViewController {
   
   // MARK: Bar Chart
   
-  func dataReady(importedData:[Signal]) -> Void {
-    print ("Imported \(importedData.count) assets")
+  func dataReady() -> Void {
+    print ("Imported \(dataController.signals.count) assets")
     
     print (chartView.frame.size.width)
-    
-    let units = dataController.fetchDistinct("unitNumber") as! [String]
-
-//    for unit in units {
-//      print(unit)
-//    }
-    
-    print ("Distinct units: \(units.count)")
-
-    let signalsByDay = dataController.groupSignalsByDay()
-    print ("Found \(signalsByDay.keys.count) groups")
-    for daily in signalsByDay {
-      print ("Found \(daily.1.count) signals for \(daily.0)")
-    }
-    
-    let signalsByMonth = dataController.groupSignalsByMonth()
-    print ("Found \(signalsByMonth.keys.count) groups")
-    for monthly in signalsByMonth {
-      print ("Found \(monthly.1.count) signals for \(monthly.0)")
-    }
-    
-    let signalsByYear = dataController.groupSignalsByYear()
-    print ("Found \(signalsByYear.keys.count) groups")
-    for yearly in signalsByYear {
-      print ("Found \(yearly.1.count) signals for \(yearly.0)")
-    }
     
     print ("Done")
   }
