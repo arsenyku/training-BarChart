@@ -20,7 +20,18 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3L-Qr-xJR" userLabel="barChart">
                                 <rect key="frame" x="100" y="40" width="490" height="480"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xqz-OH-YeZ" userLabel="scroll">
+                                        <rect key="frame" x="0.0" y="0.0" width="490" height="480"/>
+                                    </scrollView>
+                                </subviews>
                                 <color key="backgroundColor" red="0.93686868686868685" green="0.93686868686868685" blue="0.93686868686868685" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="xqz-OH-YeZ" firstAttribute="top" secondItem="Y3L-Qr-xJR" secondAttribute="top" id="CTt-9x-AfR"/>
+                                    <constraint firstItem="xqz-OH-YeZ" firstAttribute="width" secondItem="Y3L-Qr-xJR" secondAttribute="width" id="H4f-zR-azB"/>
+                                    <constraint firstItem="xqz-OH-YeZ" firstAttribute="height" secondItem="Y3L-Qr-xJR" secondAttribute="height" id="ltO-uW-JBU"/>
+                                    <constraint firstItem="xqz-OH-YeZ" firstAttribute="leading" secondItem="Y3L-Qr-xJR" secondAttribute="leading" id="o8A-dq-pvn"/>
+                                </constraints>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ghe-T7-vXe" userLabel="timeSegment">
                                 <rect key="frame" x="213" y="550" width="265" height="31"/>
@@ -81,6 +92,7 @@
                     </view>
                     <connections>
                         <outlet property="assetPicker" destination="XhI-Ah-lQJ" id="6bs-QA-WQr"/>
+                        <outlet property="chartScrollView" destination="xqz-OH-YeZ" id="Z7C-Ce-r4K"/>
                         <outlet property="chartView" destination="Y3L-Qr-xJR" id="EDj-n8-cZn"/>
                         <outlet property="signalLabel" destination="j1X-hq-73H" id="kWs-IN-81l"/>
                         <outlet property="timeSegment" destination="ghe-T7-vXe" id="h1d-Kh-Rg8"/>

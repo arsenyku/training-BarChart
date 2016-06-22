@@ -20,6 +20,7 @@ class BarChartViewController: UIViewController {
   @IBOutlet weak var signalLabel: UILabel!
   @IBOutlet weak var timeSegment: UISegmentedControl!
   @IBOutlet weak var chartView: UIView!
+  @IBOutlet weak var chartScrollView: UIScrollView!
   
   // MARK: lifecycle
   
@@ -82,8 +83,8 @@ class BarChartViewController: UIViewController {
       bar.backgroundColor = UIColor.blueColor()
       
       bars.append(bar)
-      chartView.addSubview(bar)
-      
+      chartScrollView.addSubview(bar)
+      chartScrollView.contentSize = CGSize(width: (created+1) * width, height: heightOfChart)
       created += 1
     }
 
