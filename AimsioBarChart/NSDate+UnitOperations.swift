@@ -14,6 +14,14 @@ extension NSDate {
     return NSCalendar.currentCalendar().isDate(self, inSameDayAsDate: otherDate)
   }
   
+  func isAfter(otherDate: NSDate) -> Bool {
+    return self.compare(otherDate) == NSComparisonResult.OrderedDescending
+  }
+  
+  func isBefore(otherDate: NSDate) -> Bool {
+    return self.compare(otherDate) == NSComparisonResult.OrderedAscending
+  }
+
   func dateFromComponents(unitFlags: NSCalendarUnit) -> NSDate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components(unitFlags, fromDate: self)

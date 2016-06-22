@@ -14,6 +14,8 @@ class BarChartViewController: UIViewController {
   
   let dataController = DataController()
   
+  var bars = [UIView]()
+  
   @IBOutlet weak var assetPicker: UIPickerView!
   @IBOutlet weak var signalLabel: UILabel!
   @IBOutlet weak var timeSegment: UISegmentedControl!
@@ -25,26 +27,66 @@ class BarChartViewController: UIViewController {
     super.viewDidLoad()
 
     signalLabel.rotate(by: -π/2)
+
+  }
+  
+  override func viewDidLayoutSubviews() {
     
-    dataController.fetchSignals(dataReady)
-    
+    if (dataController.signals.count < 1) {
+      dataController.fetchSignals(dataReady)
+    } else {
+      drawBars()
+    }
     
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+
   }
   
-  
+
   // MARK: Bar Chart
   
   func dataReady() -> Void {
     print ("Imported \(dataController.signals.count) assets")
     
-    print (chartView.frame.size.width)
+    drawBars()
     
     print ("Done")
+  }
+  
+  
+  func drawBars() {
+    for bar in bars{
+      bar.removeFromSuperview()
+    }
+    bars.removeAll()
+    
+    let groupedData = dataController.groupSignalsByDay()
+    
+    let ascendingKeys = groupedData.keys.sort({ $0.isBefore($1) })
+    let dayOfMaxSignals = groupedData.keys.maxElement({ groupedData[$0]!.count < groupedData[$1]!.count })!
+    let maxSignals = CGFloat(groupedData[dayOfMaxSignals]!.count)
+    let heightOfChart = CGFloat(chartView.frame.size.height)
+    
+    var created:CGFloat = 0.0
+    for date in ascendingKeys {
+      
+      let signalsForGroup = CGFloat( groupedData[date]!.count )
+      
+      let width:CGFloat = 10
+      let height = heightOfChart * (signalsForGroup / maxSignals)
+      
+      let bar = UIView(frame: CGRectMake(created * width,heightOfChart-height,width,height))
+      bar.backgroundColor = UIColor.blueColor()
+      
+      bars.append(bar)
+      chartView.addSubview(bar)
+      
+      created += 1
+    }
+
   }
 
 
