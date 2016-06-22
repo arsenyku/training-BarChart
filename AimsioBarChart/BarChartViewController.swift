@@ -61,6 +61,18 @@ class BarChartViewController: UIViewController {
       print ("Found \(daily.1.count) signals for \(daily.0)")
     }
     
+    let signalsByMonth = dataController.groupSignalsByMonth()
+    print ("Found \(signalsByMonth.keys.count) groups")
+    for monthly in signalsByMonth {
+      print ("Found \(monthly.1.count) signals for \(monthly.0)")
+    }
+    
+    let signalsByYear = dataController.groupSignalsByYear()
+    print ("Found \(signalsByYear.keys.count) groups")
+    for yearly in signalsByYear {
+      print ("Found \(yearly.1.count) signals for \(yearly.0)")
+    }
+    
     print ("Done")
   }
 

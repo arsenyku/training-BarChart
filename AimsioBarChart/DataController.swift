@@ -113,24 +113,22 @@ class DataController {
     
   }
 
-
-  func groupSignalsByDay() -> [ NSDate:[Signal] ] {
-    
+  func groupSignals(by aggregator:(NSDate)->NSDate) -> [ NSDate:[Signal] ] {
     // Use an NSArray to collect the Signal objects because
     // the append() operation on a Swift Array is O(n) when
-    // the array contains a class that is bridged from 
+    // the array contains a class that is bridged from
     // Objective-C
     var result = [ NSDate:NSMutableArray ]()
     
     for signal in signals {
-      let day = signal.entryDate!.startOfDay()
-      if let _ = result[day] {
+      let group = aggregator(signal.entryDate!)
+      if let _ = result[group] {
       } else {
-        result[day] = NSMutableArray()
+        result[group] = NSMutableArray()
       }
-
-      result[day]!.addObject(signal)
-
+      
+      result[group]!.addObject(signal)
+      
     }
     
     var bridgedResult = [NSDate:[Signal]]()
@@ -139,9 +137,21 @@ class DataController {
     }
     
     return bridgedResult
+
+  }
+  
+  
+  func groupSignalsByDay() -> [ NSDate:[Signal] ] {
+    return groupSignals(by: NSDate.startOfDay)
   }
 
-  
+  func groupSignalsByMonth() -> [ NSDate:[Signal] ] {
+    return groupSignals(by: NSDate.startOfMonth)
+  }
+
+  func groupSignalsByYear() -> [ NSDate:[Signal] ] {
+    return groupSignals(by: NSDate.startOfYear)
+  }
   
   // MARK: - Core Data stack
   

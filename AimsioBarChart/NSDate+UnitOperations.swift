@@ -20,16 +20,16 @@ extension NSDate {
     return calendar.dateFromComponents(components)!
   }
   
-  func startOfYear() -> NSDate {
-    return dateFromComponents([.Year])
+  class func startOfYear(date:NSDate) -> NSDate {
+    return date.dateFromComponents([.Year])
   }
 
-  func startOfMonth() -> NSDate {
-    return dateFromComponents([.Year, .Month])
+  class func startOfMonth(date:NSDate) -> NSDate {
+    return date.dateFromComponents([.Year, .Month])
   }
 
-  func startOfDay() -> NSDate {
-    return dateFromComponents([.Year, .Month, .Day])
+  class func startOfDay(date:NSDate) -> NSDate {
+    return date.dateFromComponents([.Year, .Month, .Day])
   }
 
 }
