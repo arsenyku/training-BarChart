@@ -1,5 +1,5 @@
 //
-//  Asset+CoreDataProperties.swift
+//  Signal+CoreDataProperties.swift
 //  AimsioBarChart
 //
 //  Created by asu on 2016-06-21.
@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension Asset {
+extension Signal {
 
     @NSManaged var entryDate: NSDate?
     @NSManaged var status: String?

@@ -1,5 +1,5 @@
 //
-//  Asset.swift
+//  Signal.swift
 //  AimsioBarChart
 //
 //  Created by asu on 2016-06-21.
@@ -10,8 +10,8 @@ import Foundation
 import CoreData
 
 
-class Asset: NSManagedObject {
-  
-  static let ENTITY_NAME = "Asset"
+class Signal: NSManagedObject {
 
+  static let ENTITY_NAME = "Signal"
+  
 }

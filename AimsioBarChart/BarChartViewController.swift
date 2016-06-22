@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 class BarChartViewController: UIViewController {
 
@@ -43,8 +42,26 @@ class BarChartViewController: UIViewController {
   
   // MARK: Bar Chart
   
-  func dataReady(importedData:[Asset]) -> Void {
+  func dataReady(importedData:[Signal]) -> Void {
     print ("Imported \(importedData.count) assets")
+    
+    print (chartView.frame.size.width)
+    
+    let units = dataController.fetchDistinct("unitNumber") as! [String]
+
+//    for unit in units {
+//      print(unit)
+//    }
+    
+    print ("Distinct units: \(units.count)")
+
+    let signalsByDay = dataController.groupSignalsByDay()
+    print ("Found \(signalsByDay.keys.count) groups")
+    for daily in signalsByDay {
+      print ("Found \(daily.1.count) signals for \(daily.0)")
+    }
+    
+    print ("Done")
   }
 
 

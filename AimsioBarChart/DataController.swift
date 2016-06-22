@@ -14,12 +14,18 @@ class DataController {
 
   let dateFormatter: NSDateFormatter!
   
-  var assets = [Asset]()
+  var signals = [Signal]()
   
   enum DataIndex:Int {
     case unitNumber = 0
     case status = 1
     case entryDate = 2
+  }
+  
+  enum DataFields:String {
+    case unitNumber = "unitNumber"
+    case status = "status"
+    case entryDate = "entryDate"
   }
   
   init() {
@@ -30,7 +36,7 @@ class DataController {
   // MARK: - Data methods
   
   
-  func importFromCsv(sourceFile:String, completion: ((importedData:[Asset]) -> Void)? ) {
+  func importFromCsv(sourceFile:String, completion: ((importedData:[Signal]) -> Void)? ) {
     
     NSURLSession.downloadFromAddress(sourceFile) { [unowned self] (resultFileUrl, response, error) in
       let newline = "\n"
@@ -44,15 +50,15 @@ class DataController {
         
         let fields = line.splitBy(",")
         
-        guard let asset = NSEntityDescription.insertNewObjectForEntityForName(Asset.ENTITY_NAME, inManagedObjectContext: self.managedObjectContext) as? Asset else { continue }
+        guard let signal = NSEntityDescription.insertNewObjectForEntityForName(Signal.ENTITY_NAME, inManagedObjectContext: self.managedObjectContext) as? Signal else { continue }
         
-        asset.unitNumber = fields[ DataIndex.unitNumber.rawValue ]
-        asset.status = fields[ DataIndex.status.rawValue ]
-        asset.entryDate = self.dateFormatter.dateFromString( fields[ DataIndex.entryDate.rawValue ] )
+        signal.unitNumber = fields[ DataIndex.unitNumber.rawValue ]
+        signal.status = fields[ DataIndex.status.rawValue ]
+        signal.entryDate = self.dateFormatter.dateFromString( fields[ DataIndex.entryDate.rawValue ] )
         
         //print ("\(asset.unitNumber), \(asset.status), \(asset.entryDate)")
         
-        self.assets.append(asset)
+        self.signals.append(signal)
         
       }
       
@@ -60,7 +66,7 @@ class DataController {
       
       self.saveContext()
       
-      completion?(importedData: self.assets)
+      completion?(importedData: self.signals)
       
     }
     
@@ -68,7 +74,7 @@ class DataController {
   
   
   func deleteAllAssets(completion: (() -> Void)?){
-    let fetchRequest = NSFetchRequest(entityName: Asset.ENTITY_NAME)
+    let fetchRequest = NSFetchRequest(entityName: Signal.ENTITY_NAME)
     let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
     
     do {
@@ -81,6 +87,41 @@ class DataController {
     
     completion?()
   }
+  
+  
+  func fetchDistinct(attributeName:String)->[AnyObject] {
+    let fetchRequest = NSFetchRequest(entityName: Signal.ENTITY_NAME)
+
+    fetchRequest.resultType = .ManagedObjectResultType
+    fetchRequest.propertiesToFetch = [attributeName]
+    fetchRequest.returnsDistinctResults = true
+    
+    guard let fetched = try? managedObjectContext.executeFetchRequest(fetchRequest) as! [Signal] else { return [] }
+    
+    let attributes = fetched.map { (fetchedSignal) -> AnyObject in
+      fetchedSignal.valueForKey(attributeName)!
+    }
+    
+    return attributes
+    
+  }
+
+
+  func groupSignalsByDay() -> [ NSDate:[Signal] ] {
+    var result = [ NSDate:[Signal] ]()
+    
+    for signal in signals {
+      let day = signal.entryDate!.startOfDay()
+      if let _ = result[day] {
+        result[day]!.append(signal)
+      } else {
+        result[day] = [signal]
+      }
+    }
+    
+    return result
+  }
+
   
   
   // MARK: - Core Data stack
