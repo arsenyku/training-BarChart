@@ -42,6 +42,11 @@ class DataController {
       let newline = "\n"
       guard let raw = try? String(contentsOfURL: resultFileUrl!) else { return }
       
+      // Use an NSArray to collect the Signal objects because 
+      // the append() operation on a Swift Array is O(n) when
+      // the array contains a class that is bridged from Objective-C
+      let tempSignals = NSMutableArray()
+      
       let lines = raw.splitBy(newline)
       
       for line in lines {
@@ -58,9 +63,11 @@ class DataController {
         
         //print ("\(asset.unitNumber), \(asset.status), \(asset.entryDate)")
         
-        self.signals.append(signal)
+        tempSignals.addObject(signal)
         
       }
+      
+      self.signals = tempSignals as AnyObject as! [Signal]
       
       print ("Saving Context")
       
@@ -108,18 +115,30 @@ class DataController {
 
 
   func groupSignalsByDay() -> [ NSDate:[Signal] ] {
-    var result = [ NSDate:[Signal] ]()
+    
+    // Use an NSArray to collect the Signal objects because
+    // the append() operation on a Swift Array is O(n) when
+    // the array contains a class that is bridged from 
+    // Objective-C
+    var result = [ NSDate:NSMutableArray ]()
     
     for signal in signals {
       let day = signal.entryDate!.startOfDay()
       if let _ = result[day] {
-        result[day]!.append(signal)
       } else {
-        result[day] = [signal]
+        result[day] = NSMutableArray()
       }
+
+      result[day]!.addObject(signal)
+
     }
     
-    return result
+    var bridgedResult = [NSDate:[Signal]]()
+    for entry in result {
+      bridgedResult[entry.0] = (entry.1 as AnyObject as! [Signal])
+    }
+    
+    return bridgedResult
   }
 
   
