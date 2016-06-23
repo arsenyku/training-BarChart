@@ -19,8 +19,11 @@ class ABCBarChart:UIView {
   @IBOutlet weak var scrollView: UIScrollView!
 
   
-  func createBars(){
+  func createBars(forValues values:[Float], width:CGFloat){
     print ("Create Bars start")
+    
+    barValues = values
+    barWidth = width
     
     removeBars()
     bars.removeAll()
@@ -48,8 +51,9 @@ class ABCBarChart:UIView {
 
     print ("Draw Bars start.  chart height = \(heightOfChart)")
 
-    let maxValue = CGFloat(barValues.maxElement()!)
-    let barHeights = barValues.map { return heightOfChart * ( CGFloat($0) / maxValue ) }
+    guard let maxValue = barValues.maxElement() else { return }
+    
+    let barHeights = barValues.map { return heightOfChart * ( CGFloat($0 / maxValue) ) }
     
     for i in 0..<bars.count {
       let bar = bars[i]

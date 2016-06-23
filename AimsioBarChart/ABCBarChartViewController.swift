@@ -65,14 +65,14 @@ class ABCBarChartViewController: UIViewController {
     super.viewDidLoad()
 
     signalLabel.rotate(by: -π/2)
+    
+    dataController.initializeSignalDataIfNeeded(dataReady)
 
   }
   
   override func viewDidLayoutSubviews() {
     
-    if (dataController.signals.count < 1) {
-      dataController.initializeSignalDataIfNeeded(dataReady)
-    } else {
+    if (dataController.signals.count > 0) {
       chartView.drawBars()
     }
     
@@ -99,10 +99,10 @@ class ABCBarChartViewController: UIViewController {
       let date2 = signalData2.0
       return date1.isBefore(date2)
     })
-    chartView.barValues = groupedData.map { return Float($0.1.count) }
-    chartView.barWidth = barWidth
     
-    chartView.createBars()
+    let signalCountsPerDay = groupedData.map { return Float($0.1.count) }
+    
+    chartView.createBars(forValues: signalCountsPerDay, width: barWidth)
 
     dispatch_async(dispatch_get_main_queue()) { [unowned self] in
       self.chartView.drawBars()
