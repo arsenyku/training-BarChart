@@ -9,7 +9,7 @@
         <!--Bar Chart View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="BarChartViewController" customModule="AimsioBarChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ABCBarChartViewController" customModule="AimsioBarChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3L-Qr-xJR" userLabel="barChart">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3L-Qr-xJR" userLabel="barChart" customClass="ABCBarChart" customModule="AimsioBarChart" customModuleProvider="target">
                                 <rect key="frame" x="100" y="40" width="490" height="480"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xqz-OH-YeZ" userLabel="scroll">
@@ -32,6 +32,9 @@
                                     <constraint firstItem="xqz-OH-YeZ" firstAttribute="height" secondItem="Y3L-Qr-xJR" secondAttribute="height" id="ltO-uW-JBU"/>
                                     <constraint firstItem="xqz-OH-YeZ" firstAttribute="leading" secondItem="Y3L-Qr-xJR" secondAttribute="leading" id="o8A-dq-pvn"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="scrollView" destination="xqz-OH-YeZ" id="mRH-Ka-rar"/>
+                                </connections>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ghe-T7-vXe" userLabel="timeSegment">
                                 <rect key="frame" x="213" y="550" width="265" height="31"/>
@@ -44,6 +47,9 @@
                                     <segment title="Monthly"/>
                                     <segment title="Yearly"/>
                                 </segments>
+                                <connections>
+                                    <action selector="timeSegmentChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="OiM-tQ-Rbw"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OEW-Dk-oRt">
                                 <rect key="frame" x="100" y="528" width="38" height="21"/>
@@ -92,7 +98,6 @@
                     </view>
                     <connections>
                         <outlet property="assetPicker" destination="XhI-Ah-lQJ" id="6bs-QA-WQr"/>
-                        <outlet property="chartScrollView" destination="xqz-OH-YeZ" id="Z7C-Ce-r4K"/>
                         <outlet property="chartView" destination="Y3L-Qr-xJR" id="EDj-n8-cZn"/>
                         <outlet property="signalLabel" destination="j1X-hq-73H" id="kWs-IN-81l"/>
                         <outlet property="timeSegment" destination="ghe-T7-vXe" id="h1d-Kh-Rg8"/>

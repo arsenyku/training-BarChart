@@ -1,8 +1,8 @@
 //
-//  Signal+CoreDataProperties.swift
+//  ABCSignal+CoreDataProperties.swift
 //  AimsioBarChart
 //
-//  Created by asu on 2016-06-21.
+//  Created by asu on 2016-06-22.
 //  Copyright © 2016 ArsenykUstaris. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension Signal {
+extension ABCSignal {
 
     @NSManaged var entryDate: NSDate?
     @NSManaged var status: String?

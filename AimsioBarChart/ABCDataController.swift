@@ -10,13 +10,15 @@ import UIKit
 import CoreData
 
 
-class DataController {
+class ABCDataController {
 
   let sourceFileLocation = "https://raw.githubusercontent.com/arsenyku/training-BarChart/master/AimsioBarChart/query_result-iOS.csv"
-
+  
+  var downloadTask:NSURLSessionTask?
+  
   let dateFormatter: NSDateFormatter!
   
-  var signals = [Signal]()
+  var signals = [ABCSignal]()
   
   enum DataIndex:Int {
     case unitNumber = 0
@@ -38,9 +40,15 @@ class DataController {
   // MARK: - Data methods
 
   
-  func importFromCsv(sourceFile:String, completion: ((importedData:[Signal]) -> Void)? ) {
+  func importFromCsv(sourceFile:String, completion: ((importedData:[ABCSignal]) -> Void)? ) {
     
-    NSURLSession.downloadFromAddress(sourceFile) { [unowned self] (resultFileUrl, response, error) in
+    if (downloadTask != nil) {
+      return
+    }
+    
+    print ("Importing data from \(sourceFile)")
+    
+    downloadTask = NSURLSession.downloadFromAddress(sourceFile) { [unowned self] (resultFileUrl, response, error) in
       let newline = "\n"
       guard let raw = try? String(contentsOfURL: resultFileUrl!) else { return }
       
@@ -57,7 +65,7 @@ class DataController {
         
         let fields = line.splitBy(",")
         
-        guard let signal = NSEntityDescription.insertNewObjectForEntityForName(Signal.ENTITY_NAME, inManagedObjectContext: self.managedObjectContext) as? Signal else { continue }
+        guard let signal = NSEntityDescription.insertNewObjectForEntityForName(ABCSignal.ENTITY_NAME, inManagedObjectContext: self.managedObjectContext) as? ABCSignal else { continue }
         
         signal.unitNumber = fields[ DataIndex.unitNumber.rawValue ]
         signal.status = fields[ DataIndex.status.rawValue ]
@@ -69,7 +77,7 @@ class DataController {
         
       }
       
-      self.signals = tempSignals as AnyObject as! [Signal]
+      self.signals = tempSignals as AnyObject as! [ABCSignal]
       
       print ("Saving downloaded signals")
       
@@ -77,13 +85,14 @@ class DataController {
       
       completion?(importedData: self.signals)
       
+      self.downloadTask = nil
     }
     
   }
   
   
   func deleteAllAssets(completion: (() -> Void)?){
-    let fetchRequest = NSFetchRequest(entityName: Signal.ENTITY_NAME)
+    let fetchRequest = NSFetchRequest(entityName: ABCSignal.ENTITY_NAME)
     let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
     
     do {
@@ -98,10 +107,10 @@ class DataController {
   }
   
   
-  func fetchSignals(completion:(()->Void)?){
-    let fetchRequest = NSFetchRequest(entityName: Signal.ENTITY_NAME)
+  func initializeSignalDataIfNeeded(completion:(()->Void)?){
+    let fetchRequest = NSFetchRequest(entityName: ABCSignal.ENTITY_NAME)
     
-    let fetched = try? managedObjectContext.executeFetchRequest(fetchRequest) as! [Signal]
+    let fetched = try? managedObjectContext.executeFetchRequest(fetchRequest) as! [ABCSignal]
     
     if let fetched = fetched where fetched.count > 0 {
       signals = fetched
@@ -115,13 +124,13 @@ class DataController {
   
   
   func fetchDistinct(attributeName:String)->[AnyObject] {
-    let fetchRequest = NSFetchRequest(entityName: Signal.ENTITY_NAME)
+    let fetchRequest = NSFetchRequest(entityName: ABCSignal.ENTITY_NAME)
 
     fetchRequest.resultType = .ManagedObjectResultType
     fetchRequest.propertiesToFetch = [attributeName]
     fetchRequest.returnsDistinctResults = true
     
-    guard let fetched = try? managedObjectContext.executeFetchRequest(fetchRequest) as! [Signal] else { return [] }
+    guard let fetched = try? managedObjectContext.executeFetchRequest(fetchRequest) as! [ABCSignal] else { return [] }
     
     let attributes = fetched.map { (fetchedSignal) -> AnyObject in
       fetchedSignal.valueForKey(attributeName)!
@@ -131,7 +140,7 @@ class DataController {
     
   }
 
-  func groupSignals(by aggregator:(NSDate)->NSDate) -> [ NSDate:[Signal] ] {
+  func groupSignals(by aggregator:(NSDate)->NSDate) -> [ NSDate:[ABCSignal] ] {
     // Use an NSArray to collect the Signal objects because
     // the append() operation on a Swift Array is O(n) when
     // the array contains a class that is bridged from
@@ -149,9 +158,9 @@ class DataController {
       
     }
     
-    var bridgedResult = [NSDate:[Signal]]()
+    var bridgedResult = [NSDate:[ABCSignal]]()
     for entry in result {
-      bridgedResult[entry.0] = (entry.1 as AnyObject as! [Signal])
+      bridgedResult[entry.0] = (entry.1 as AnyObject as! [ABCSignal])
     }
     
     return bridgedResult
@@ -159,15 +168,15 @@ class DataController {
   }
   
   
-  func groupSignalsByDay() -> [ NSDate:[Signal] ] {
+  func groupSignalsByDay() -> [ NSDate:[ABCSignal] ] {
     return groupSignals(by: NSDate.startOfDay)
   }
 
-  func groupSignalsByMonth() -> [ NSDate:[Signal] ] {
+  func groupSignalsByMonth() -> [ NSDate:[ABCSignal] ] {
     return groupSignals(by: NSDate.startOfMonth)
   }
 
-  func groupSignalsByYear() -> [ NSDate:[Signal] ] {
+  func groupSignalsByYear() -> [ NSDate:[ABCSignal] ] {
     return groupSignals(by: NSDate.startOfYear)
   }
   
