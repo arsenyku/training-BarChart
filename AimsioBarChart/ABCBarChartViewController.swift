@@ -13,9 +13,7 @@ class ABCBarChartViewController: UIViewController {
   let π = CGFloat(M_PI)
   
   let dataController = ABCDataController()
-  
-//  var groupedData = [NSDate:[ABCSignal]]()
-  
+
   @IBOutlet weak var assetPicker: UIPickerView!
   @IBOutlet weak var signalLabel: UILabel!
   @IBOutlet weak var timeSegment: UISegmentedControl!
@@ -131,69 +129,6 @@ class ABCBarChartViewController: UIViewController {
     return dataController.groupSignalsByDay()
     
   }
-
-//  func createBars() {
-//    print ("Creating bars")
-//    
-//    let groupedData = groupBySelectedTimeSegment()
-//    
-//    let ascendingKeys = groupedData.keys.sort({ $0.isBefore($1) })
-//    let dayOfMaxSignals = groupedData.keys.maxElement({ groupedData[$0]!.count < groupedData[$1]!.count })!
-//    let maxSignals = CGFloat(groupedData[dayOfMaxSignals]!.count)
-//    let heightOfChart = CGFloat(chartView.frame.size.height)
-//    
-//    let tempBars = NSMutableArray()
-//    
-//    for _ in 1...groupedData.count {
-//      let bar = UIView()
-//      bar.backgroundColor = UIColor.blueColor()
-//      tempBars.addObject(bar)
-//    }
-//    
-//    var created:CGFloat = 0.0
-//    for date in ascendingKeys {
-//      
-//      let signalsForGroup = CGFloat( groupedData[date]!.count )
-//      
-//      let width = BarWidth.forTimeSegment(selectedTimeSegment)
-//      let height = heightOfChart * (signalsForGroup / maxSignals)
-//      
-//      let bar = UIView(frame: CGRectMake(created * width,heightOfChart-height,width,height))
-//      bar.backgroundColor = UIColor.blueColor()
-//      
-//      tempBars.addObject(bar)
-//
-//      created += 1
-//    }
-//    
-//    bars = tempBars as AnyObject as! [UIView]
-//    
-//    print ("Finished creating bars")
-//  }
-//  
-//  func clearBars() {
-//    for bar in bars{
-//      bar.removeFromSuperview()
-//    }
-//  }
-//  
-//
-//  func drawBars() {
-//    print ("Drawing bars")
-//
-//    clearBars()
-//    
-//    let heightOfChart = CGFloat(chartView.frame.size.height)
-//    
-//    let drawn:CGFloat = 0
-//    for bar in bars {
-//      chartScrollView.addSubview(bar)
-//      chartScrollView.contentSize = CGSize(width: (drawn+1) * barWidth, height: heightOfChart)
-//    }
-//
-//    print ("Drawing done")
-//
-//  }
   
 }
 
